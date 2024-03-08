@@ -13,7 +13,7 @@ for bam_file in "${results}"/*"${file_extension}"; do
         sample_name=$(basename "$bam_file" $file_extension)
 
         # variant calling using gatk HaplotypeCaller
-        gatk-4.5.0.0/gatk HaplotypeCaller -R ${ref} -I $bam_file -O ${results}/${sample_name}.vcf
+        gatk-4.5.0.0/gatk HaplotypeCaller -ERC GVCF -R ${ref} -I $bam_file -O ${results}/${sample_name}.g.vcf
 
         echo "Processed sample: ${sample_name}"
     else
