@@ -1,0 +1,13 @@
+#AddOrReplaceReadGroups
+java -jar $EBROOTPICARD/picard.jar AddOrReplaceReadGroups -I 153-24_fin.bam -O 153-24_gatk.bam -RGID 15324 -RGLB lib1 -RGPL ILLUMINA -RGPU unit1 -RGSM 1 2> 153-24_gatk.tab
+## Meaning of the read group fields required by GATK
+    ID = Read group identifier
+    LB = DNA preparation library identifier
+      MarkDuplicates uses the LB field to determine which read groups might contain molecular duplicates, in case the same DNA library was sequenced on multiple lanes.
+    PL = Platform/technology used to produce the read
+      This constitutes the only way to know what sequencing technology was used to generate the sequencing data. Valid values: ILLUMINA, SOLID, LS454, HELICOS and PACBIO.
+    PU = Platform Unit
+    SM = Sample
+
+# To see read group in a bam file
+samtools view -H 153-24_gatk.bam | grep '^@RG'
