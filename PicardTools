@@ -1,5 +1,9 @@
 #AddOrReplaceReadGroups
-java -jar $EBROOTPICARD/picard.jar AddOrReplaceReadGroups -I 153-24_fin.bam -O 153-24_gatk.bam -RGID 15324 -RGLB lib1 -RGPL ILLUMINA -RGPU unit1 -RGSM 1 2> 153-24_gatk.tab
+java -jar $EBROOTPICARD/picard.jar AddOrReplaceReadGroups \
+    -I 153-24_fin.bam \
+    -O 153-24_gatk.bam \
+    -RGID 15324 -RGLB lib1 -RGPL ILLUMINA -RGPU unit1 -RGSM 1 \
+    2> 153-24_gatk.tab
 ## Meaning of the read group fields required by GATK
     ID = Read group identifier
     LB = DNA preparation library identifier
@@ -13,4 +17,8 @@ java -jar $EBROOTPICARD/picard.jar AddOrReplaceReadGroups -I 153-24_fin.bam -O 1
 samtools view -H 153-24_gatk.bam | grep '^@RG'
 
 # picard mark the duplicated reads
-java -jar $EBROOTPICARD/picard.jar MarkDuplicates -I alignment/bwa-mem/153-24_sort.bam -M alignment/bowtie2/153-24_markdup-metrics.txt -O alignment/bowtie2/153-24_markdup.bam 2> alignment/bowtie2/153-24_markdup.tab
+java -jar $EBROOTPICARD/picard.jar MarkDuplicates \
+    -I alignment/bwa-mem/153-24_sort.bam \
+    -M alignment/bowtie2/153-24_markdup-metrics.txt \
+    -O alignment/bowtie2/153-24_markdup.bam \
+    2> alignment/bowtie2/153-24_markdup.tab
