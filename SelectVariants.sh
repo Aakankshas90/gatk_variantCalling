@@ -16,10 +16,16 @@ for vcf_file in "${vcf_files}"/*"${file_extension}"; do
         sample_name=$(basename "$vcf_file" $file_extension)
 
         # 1. SelectVariants SNP
-        gatk-4.5.0.0/gatk SelectVariants -R ${ref} -V "$vcf_file" --select-type-to-include SNP -O ${results}/"${sample_name}"_snp.vcf.gz 2> ${results}/"${sample_name}"_snp.txt
+        gatk-4.5.0.0/gatk SelectVariants -R ${ref} -V "$vcf_file" \
+        --select-type-to-include SNP \
+        -O ${results}/"${sample_name}"_snp.vcf.gz \
+        2> ${results}/"${sample_name}"_snp.txt
 
-        # 1. SelectVariants INDELS
-        gatk-4.5.0.0/gatk SelectVariants -R ${ref} -V "$vcf_file" --select-type-to-include INDEL -O ${results}/"${sample_name}"_indel.vcf.gz 2> ${results}/"${sample_name}"_indel.txt
+        # 2. SelectVariants INDELS
+        gatk-4.5.0.0/gatk SelectVariants -R ${ref} -V "$vcf_file" \
+        --select-type-to-include INDEL \
+        -O ${results}/"${sample_name}"_indel.vcf.gz \
+        2> ${results}/"${sample_name}"_indel.txt
 
         echo "Processed sample: ${sample_name}"
     else
