@@ -11,3 +11,6 @@ java -jar $EBROOTPICARD/picard.jar AddOrReplaceReadGroups -I 153-24_fin.bam -O 1
 
 # To see read group in a bam file
 samtools view -H 153-24_gatk.bam | grep '^@RG'
+
+# picard mark the duplicated reads
+java -jar $EBROOTPICARD/picard.jar MarkDuplicates -I alignment/bwa-mem/153-24_sort.bam -M alignment/bowtie2/153-24_markdup-metrics.txt -O alignment/bowtie2/153-24_markdup.bam 2> alignment/bowtie2/153-24_markdup.tab
