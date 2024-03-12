@@ -1,0 +1,7 @@
+# variant calling using VARSCAN2
+samtools mpileup \
+  -B -f TAIR10_chr_all.fas path/to/fin.bam \
+  | java -jar varscan/VarScan.v2.4.6.jar mpileup2snp \
+  --output-vcf 1 \
+  > out_snp.vcf \
+  2> out_snp.txt
