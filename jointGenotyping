@@ -1,0 +1,17 @@
+# Import gVCFs to GenomicsDB
+
+gatk-4.5.0.0/gatk --java-options "-Xmx16g -Xms16g" GenomicsDBImport \
+      -V results/156-4.g.vcf \
+      -V results/156-4-2.g.vcf \
+      -V results/153-24.g.vcf \
+      -V results/153-24-3.g.vcf \
+      --genomicsdb-workspace-path my_database \
+      --tmp-dir tmp \
+      -L intervals.list
+
+# Perform joint genotyping
+gatk-4.5.0.0/gatk --java-options "-Xmx16g" GenotypeGVCFs \
+   -R reference_genome/TAIR10_chr_all.fas \
+   -V gendb://my_database \
+   -O tmmSupp.vcf.gz \
+   --call-genotypes TRUE
