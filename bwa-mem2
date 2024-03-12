@@ -1,0 +1,5 @@
+# alignment to reference genome TAIR10 with bwa-mem2 (include read groups)
+bwa-mem2-2.2.1_x64-linux/bwa-mem2 mem TAIR10_chr_all.fas \
+rawdata/153-24_R1_001.fastq rawdata/153-24_R2_001.fastq \
+> alignment/153-24.sam -R "@RG\tID:HHNG7DSX5.3\tSM:${samplename}\tLB:${samplename}\tPL:ILLUMINA" \
+-t 32 2> alignment/153-24.txt
