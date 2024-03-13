@@ -18,7 +18,7 @@ for snp_file in "${snp_files}"/*"${snp_extension}"; do
         # Extract sample name without extension
         snp_name=$(basename "$snp_file" $snp_extension)
 
-        # Filter SNPs
+        # 1.Filter SNPs
         gatk-4.5.0.0/gatk VariantFiltration \
         -R ${ref} \
         -V "${snp_file}" \
@@ -36,18 +36,18 @@ for snp_file in "${snp_files}"/*"${snp_extension}"; do
         -genotype-filter-expression "GQ < 10" \
         -genotype-filter-name "GQ_filter"
 
-# Select SNPs that PASS filters
-gatk-4.5.0.0/gatk SelectVariants \
+	# 2.Select SNPs that PASS filters
+	gatk-4.5.0.0/gatk SelectVariants \
 	--exclude-filtered \
 	-V ${results}/"${snp_name}"_snp_filt.vcf \
 	-O ${results}/"${snp_name}"_snp_filtPASS.vcf \
 	2>> "${log_file}"
 
-# to exclude SNPs that failed genotype filters
-cat ${results}/"${snp_name}"_snp_filtPASS.vcf|grep \
--v -E "DP_filter|GQ_filter" \
-> ${results}/"${snp_name}"_snp_filtPASS_filtGT.vcf \
-2>> "${log_file}"
+	# 3.Exclude SNPs that failed genotype filters
+	cat ${results}/"${snp_name}"_snp_filtPASS.vcf|grep \
+	-v -E "DP_filter|GQ_filter" \
+	> ${results}/"${snp_name}"_snp_filtPASS_filtGT.vcf \
+	2>> "${log_file}"
       
         echo "Processed sample: ${snp_name}"
     else
@@ -62,7 +62,7 @@ for indel_file in "${indel_files}"/*"${indel_extension}"; do
         # Extract sample name without extension
         indel_name=$(basename "$indel_file" $indel_extension)
 
-        # Filter INDELS
+        # 1.Filter INDELS
         gatk-4.5.0.0/gatk VariantFiltration \
         -R ${ref} \
         -V "${indel_file}" \
@@ -77,18 +77,18 @@ for indel_file in "${indel_files}"/*"${indel_extension}"; do
         -genotype-filter-expression "GQ < 10" \
         -genotype-filter-name "GQ_filter"
 
-# Select Indels that PASS filters
-gatk-4.5.0.0/gatk SelectVariants \
+	# 2.Select Indels that PASS filters
+	gatk-4.5.0.0/gatk SelectVariants \
 	--exclude-filtered \
 	-V ${results}/"${indel_name}"_indel_filt.vcf \
 	-O ${results}/"${indel_name}"_indel_filtPASS.vcf \
 	2>> "${log_file}"
 
-# to exclude Indels that failed genotype filters
-cat ${results}/"${indel_name}"_indel_filtPASS.vcf|grep \
--v -E "DP_filter|GQ_filter" \
-> ${results}/"${indel_name}"_indel_filtPASS_filtGT.vcf \
-2>> "${log_file}"
+	# 3.Exclude Indels that failed genotype filters
+	cat ${results}/"${indel_name}"_indel_filtPASS.vcf|grep \
+	-v -E "DP_filter|GQ_filter" \
+	> ${results}/"${indel_name}"_indel_filtPASS_filtGT.vcf \
+	2>> "${log_file}"
 
         echo "Processed sample: ${indel_name}"
     else
