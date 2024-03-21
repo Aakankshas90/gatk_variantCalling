@@ -1,0 +1,3 @@
+bcftools query -H -i 'INFO/CR>80 & INFO/CR<90' \
+-f '%CHROM\t%POS\t%REF\t%ALT\t%QUAL\t%FORMAT\t%CR\n' \
+input_file.vcf -o output.txt
