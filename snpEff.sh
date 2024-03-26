@@ -3,9 +3,10 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # directories
-vcf_files="/data/SNPcalling/VariantFiltration/all"
+vcf_files="/Users/balgovindyadav/Downloads/Aakanksha/snp/results/varscan_snp"
 file_extension=".vcf"
-results="/data/SNPcalling/VariantFiltration/annotated"
+results="/Users/balgovindyadav/Downloads/Aakanksha/snp/results/varscan_snp/annotated"
+snpEff="/Users/balgovindyadav/Downloads/Aakanksha/snp/results/snpEff"
 
 # Loop through all files with the specified extension
 for vcf_file in "${vcf_files}"/*"${file_extension}"; do
@@ -15,7 +16,7 @@ for vcf_file in "${vcf_files}"/*"${file_extension}"; do
         sample_name=$(basename "$vcf_file" $file_extension)
 
 	# annotate
-	java -Xmx8g -jar snpEff/snpEff.jar \
+	java -Xmx8g -jar ${snpEff}/snpEff.jar \
 	Arabidopsis_thaliana "${vcf_file}" \
 	> ${results}/"${sample_name}"_annot.vcf \
 	-stats ${results}/"${sample_name}"_annot
