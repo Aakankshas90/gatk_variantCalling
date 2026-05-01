@@ -41,3 +41,6 @@ for bam_file in "${aligned}"/*"${file_extension}"; do
     echo "Processed sample: ${sample_name}"
 
 done
+
+# Note:
+# Accuracy of BQSR depends on quality of known variant sites
