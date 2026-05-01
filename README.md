@@ -72,25 +72,21 @@ Each script processes multiple samples using looping and requires modification o
 ---
 
 ## 🧬 Key Steps Explained
-Alignment
 
+# Alignment
 Reads are aligned to the reference genome using BWA-MEM2.
 Read groups are added during alignment for compatibility with GATK.
 
-BQSR
-
+# BQSR
 Systematic sequencing errors are corrected using known variant sites.
 
-HaplotypeCaller
-
+# HaplotypeCaller
 Variants are called per sample in GVCF mode to enable joint genotyping.
 
-Joint Genotyping
-
+# Joint Genotyping
 Multiple GVCFs are combined using GenomicsDB and genotyped together.
 
-Variant Filtering
-
+# Variant Filtering
 Hard filters are applied separately to SNPs and INDELs based on quality metrics.
 
 ---
