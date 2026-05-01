@@ -35,25 +35,20 @@ Each step is executed independently using dedicated scripts:
 
 ## 🔄 Pipeline Overview
 
+## 🔄 Pipeline Overview
+
 ```mermaid
 flowchart TD
-
-A[Raw FASTQ] --> B[Alignment - BWA-MEM2]
-B --> C[Sorted BAM + MarkDuplicates]
+A[Raw FASTQ] --> B[Alignment]
+B --> C[Post-processing]
 C --> D[BQSR]
-D --> E[HaplotypeCaller (GVCF)]
-E --> F[GenomicsDBImport]
-F --> G[GenotypeGVCFs]
-G --> H[Combined VCF]
-
-H --> I[SNP Selection]
-H --> J[INDEL Selection]
-
-I --> K[SNP Filtering]
-J --> L[INDEL Filtering]
-
-K --> M[Final SNP Set]
-L --> N[Final INDEL Set]
+D --> E[Variant Calling]
+E --> F[Joint Genotyping]
+F --> G[Combined VCF]
+G --> H[SNP Pipeline]
+G --> I[INDEL Pipeline]
+H --> J[Filtered SNPs]
+I --> K[Filtered INDELs]
 ```
 
 ---
