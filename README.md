@@ -54,11 +54,14 @@ J --> L[INDEL Filtering]
 
 K --> M[Final SNP Set]
 L --> N[Final INDEL Set]
+
 ```
 
 ---
 
 ## 🚀 Example Usage
+
+```bash
 # Step 1: Alignment
 bash scripts/bwa-mem2.sh
 
@@ -70,6 +73,7 @@ bash scripts/bqsr.sh
 
 # Step 4: Variant Calling
 bash scripts/haplotypecaller.sh
+```
 
 Each script processes multiple samples using looping and requires modification of paths before execution.
 
