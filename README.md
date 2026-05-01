@@ -35,8 +35,6 @@ Each step is executed independently using dedicated scripts:
 
 ## 🔄 Pipeline Overview
 
-## 🔄 Pipeline Overview
-
 ```mermaid
 flowchart TD
 A[Raw FASTQ] --> B[Alignment]
