@@ -38,10 +38,10 @@ Each step is executed independently using dedicated scripts:
 ```mermaid
 flowchart TD
 
-A[Raw FASTQ] --> B[Alignment<br/>BWA-MEM2]
+A[Raw FASTQ] --> B[Alignment - BWA-MEM2]
 B --> C[Sorted BAM + MarkDuplicates]
 C --> D[BQSR]
-D --> E[HaplotypeCaller<br/>(GVCF)]
+D --> E[HaplotypeCaller (GVCF)]
 E --> F[GenomicsDBImport]
 F --> G[GenotypeGVCFs]
 G --> H[Combined VCF]
@@ -54,7 +54,6 @@ J --> L[INDEL Filtering]
 
 K --> M[Final SNP Set]
 L --> N[Final INDEL Set]
-
 ```
 
 ---
