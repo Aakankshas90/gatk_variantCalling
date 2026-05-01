@@ -1,0 +1,25 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+# directories
+ref="/RAID1/working/A423/aakanksha/SNPcalling/reference_genome/TAIR10_chr_all.fas"
+rawdata="/RAID1/working/A423/aakanksha/SNPcalling/rawdata"
+aligned="/RAID1/working/A423/aakanksha/SNPcalling/aligned"
+
+threads=${SLURM_CPUS_PER_TASK:-16}
+
+for read1 in "${rawdata}"/*_R1_001.fastq; do
+    sample_name=$(basename "$read1" _R1_001.fastq)
+    read2="${rawdata}/${sample_name}_R2_001.fastq"
+
+    echo "Aligning sample: ${sample_name}"
+
+    bwa-mem2-2.2.1_x64-linux/bwa-mem2 mem "$ref" \
+        "$read1" "$read2" \
+        -R "@RG\tID:${sample_name}\tSM:${sample_name}\tLB:${sample_name}\tPL:ILLUMINA" \
+        -t ${threads} \
+    | samtools view -bS - \
+    > "${aligned}/${sample_name}.bam"
+
+done
