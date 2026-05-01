@@ -29,7 +29,7 @@ gatk-4.5.0.0/gatk --java-options "-Xmx16g -Xms16g" GenomicsDBImport \
     "${gvcf_list[@]}" \
     --genomicsdb-workspace-path "$db_path" \
     --tmp-dir "$tmp_dir" \
-    -L intervals.list \
+    -L "reference_genome/intervals.list" \
     2> "${results}/genomicsdb_import.log"
 
 echo "Running joint genotyping..."
