@@ -1,0 +1,43 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+# Joint genotyping using GATK
+# Step 1: Import multiple GVCFs into GenomicsDB
+# Step 2: Perform joint genotyping across all samples
+
+# directories
+ref="/RAID1/working/A423/aakanksha/SNPcalling/reference_genome/TAIR10_chr_all.fas"
+results="/RAID1/working/A423/aakanksha/SNPcalling/results"
+
+# workspace and temp
+db_path="${results}/genomicsdb"
+tmp_dir="${results}/tmp"
+
+mkdir -p "$db_path" "$tmp_dir"
+
+# Collect all GVCF files
+gvcf_list=()
+for gvcf in "${results}"/*.g.vcf; do
+    gvcf_list+=("-V" "$gvcf")
+done
+
+echo "Importing GVCFs into GenomicsDB..."
+
+# Step 1: Import GVCFs into GenomicsDB
+gatk-4.5.0.0/gatk --java-options "-Xmx16g -Xms16g" GenomicsDBImport \
+    "${gvcf_list[@]}" \
+    --genomicsdb-workspace-path "$db_path" \
+    --tmp-dir "$tmp_dir" \
+    -L intervals.list \
+    2> "${results}/genomicsdb_import.log"
+
+echo "Running joint genotyping..."
+
+# Step 2: Joint genotyping
+gatk-4.5.0.0/gatk --java-options "-Xmx16g" GenotypeGVCFs \
+    -R "$ref" \
+    -V "gendb://${db_path}" \
+    -O "${results}/cohort.vcf.gz" \
+    --call-genotypes TRUE \
+    2> "${results}/genotypegvcfs.log"
