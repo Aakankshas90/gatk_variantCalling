@@ -1,0 +1,30 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+# directories
+aligned="/RAID1/working/A423/aakanksha/SNPcalling/aligned"
+results="/RAID1/working/A423/aakanksha/SNPcalling/results"
+
+file_extension=".bam"
+
+for bam_file in "${aligned}"/*"${file_extension}"; do
+    sample_name=$(basename "$bam_file" $file_extension)
+
+    echo "Processing sample: ${sample_name}"
+
+    # Sort BAM
+    samtools sort "$bam_file" \
+        -o "${aligned}/${sample_name}_sort.bam" \
+        -@ 16
+
+    # Mark duplicates
+    java -jar $EBROOTPICARD/picard.jar MarkDuplicates \
+        -I "${aligned}/${sample_name}_sort.bam" \
+        -O "${aligned}/${sample_name}_markdup.bam" \
+        -M "${results}/${sample_name}_markdup_metrics.txt"
+
+    # Index
+    samtools index "${aligned}/${sample_name}_markdup.bam"
+
+done
